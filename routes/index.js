@@ -16,7 +16,7 @@ router.get('/', function (req, res, next){
   .then( pages => {
     res.render('index', {
       pages: pages
-    })
+    });
   });
 });
 

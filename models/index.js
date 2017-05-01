@@ -19,9 +19,12 @@ const Page = db.define('page', {
     status: {
         type: Sequelize.ENUM('open', 'closed')
     },
-    date:{
+    date: {
       type: Sequelize.DATE,
       defaultValue: Sequelize.NOW
+    },
+    tags: {
+      type: Sequelize.ARRAY(Sequelize.TEXT) 
     }
 }, {
   hooks: {
@@ -36,7 +39,7 @@ const Page = db.define('page', {
       page.urlTitle = generateUrlTitle(page.title);
     }
   },
-  
+
   getterMethods: {
     route: function() {
       return '/wiki/' + this.urlTitle;
@@ -57,7 +60,15 @@ const User = db.define('user', {
           isEmail: true
         }
     }
+},{
+  getterMethods : {
+    route: function(){
+      return '/users/' + this.id;
+    }
+  }
 });
+
+Page.belongsTo(User, { as: 'author' })
 
 module.exports = {
   db: db,
