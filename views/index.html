@@ -8,4 +8,10 @@
       <li><a href={{ page.route }}>{{ page.title }}</a></li>
     {% endfor %}
   </ul>
+
+  <form action="/wiki/search" method="GET">
+    <label for="tags_field">Search for Tags:</label>
+    <input name="tags" type="text" id="tags_field"/>
+    <input type="submit" value="Submit" />
+  </form>
 {% endblock %}

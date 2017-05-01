@@ -19,6 +19,9 @@ router.get('/', function (req, res, next){
     });
   });
 });
+// router.use('/', (req, res, next) => {
+//   res.send('hi');
+// })
 
 router.use('/wiki', wikiRouter);
 

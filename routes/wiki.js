@@ -7,6 +7,28 @@ var User = models.User;
 
 module.exports = router;
 
+router.get('/search', (req, res, next) => {
+
+  var tags = req.query.tags.split(',').map( tag => {
+    return tag.toUpperCase().trim();
+  });
+
+  Page.findAll({
+    // $overlap matches a set of possibilities
+    where : {
+        tags: {
+            $overlap: tags
+        }
+    }
+  })
+  .then( pages => {
+    res.render('index', {
+      pages: pages
+    });
+  })
+  .catch(next);
+});
+
 router.get('/', (req, res, next) => {
   res.redirect('/');
   //res.send('got to GET /wiki/');
@@ -14,9 +36,8 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
 
-  var page = Page.build({
-    title: req.body.title,
-    content: req.body.content
+  var tags = req.body.tags.split(',').map( tag => {
+    return tag.toUpperCase().trim();
   });
 
   User.findOrCreate({
@@ -30,7 +51,8 @@ router.post('/', (req, res, next) => {
 
     var page = Page.build({
       title: req.body.title,
-      content: req.body.content
+      content: req.body.content,
+      tags: tags
     });
 
     return page.save().then( page => {
