@@ -36,7 +36,7 @@ router.get('/:urlTitle', (req, res, next) => {
   })
   .then(function(page){
     res.render( 'wikipage',
-    { showForm: true,
+    {
       title: page.title,
       content: page.content
     });
